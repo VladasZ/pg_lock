@@ -8,4 +8,4 @@ Sandbox project to understand postgres locking.
 - Install [Docker](https://docs.docker.com/engine/install/)
 - Setup postgres: `make db`
 - Run: `cargo run`
-- Check deadlock error in the output
+- Check for deadlock error in the output

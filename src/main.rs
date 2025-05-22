@@ -51,6 +51,13 @@ async fn main() -> Result<()> {
     let data2: Vec<Item> = query_as("SELECT * FROM items").fetch_all(&pool2).await?;
     dbg!(&data2);
 
+    let tx1 = spawn_transaction(pool1, 1, 2);
+    let tx2 = spawn_transaction(pool2, 1, 2);
+
+    let (pool1, pool2) = tokio::try_join!(tx1, tx2)?;
+
+    dbg!("Now ok?");
+
     Ok(())
 }
 
@@ -108,7 +115,10 @@ async fn perform_transaction(pool: PgPool, id_1: i32, id_2: i32) -> Result<PgPoo
 }
 
 fn check_for_deadlock_error(result: &Result<PgQueryResult, Error>) -> bool {
-    let Err(err) = result else { return false };
+    let Err(err) = result else {
+        println!("No error");
+        return false;
+    };
 
     let Error::Database(db_error) = err else {
         return false;
