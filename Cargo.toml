@@ -1,0 +1,10 @@
+[package]
+name = "pg_lock"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+sqlx = { version = "0.8", features = ["postgres", "macros", "runtime-tokio"] }
+tokio = { version = "1.45",features = ["full"] }
+dotenv = "0.15"
+anyhow = "1.0"

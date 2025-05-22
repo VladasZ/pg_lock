@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: deadlock_pg
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: deadlock_pg_db
+    ports:
+      - "54432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "user" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  pgdata:
